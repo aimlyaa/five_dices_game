@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:weightSum="100"
+
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+        <Button
+            android:id="@+id/newGame"
+            android:layout_width="225dp"
+            android:layout_height="59dp"
+            android:background="#11FFFFFF"
+            android:text="@string/button"
+            android:textColor="#FFFFFF"
+            tools:layout_editor_absoluteX="84dp"
+            tools:layout_editor_absoluteY="129dp" />
+
+        <Button
+            android:id="@+id/rules"
+            android:layout_width="227dp"
+            android:layout_height="63dp"
+            android:layout_marginTop="20dp"
+            android:background="#11FFFFFF"
+            android:text="@string/LoadGame"
+            android:textColor="#FFFFFF"
+            tools:layout_editor_absoluteX="83dp"
+            tools:layout_editor_absoluteY="318dp" />
+
+        <ImageView
+            android:id="@+id/dicesImage"
+            android:layout_width="165dp"
+            android:layout_height="147dp"
+            android:layout_marginTop="100dp"
+            android:contentDescription="@string/todo"
+            app:srcCompat="@drawable/dices"
+            tools:layout_editor_absoluteX="114dp"
+            tools:layout_editor_absoluteY="510dp" />
+
+</LinearLayout>
