@@ -1,7 +1,5 @@
 package com.example.kosti;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,8 +8,10 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.util.Collections;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Arrays;
+import java.util.Collections;
 
 public class PlayersScores extends AppCompatActivity implements View.OnClickListener {
     int players;

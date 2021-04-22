@@ -1,22 +1,22 @@
 package com.example.kosti;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
-import android.view.*;
-import android.widget.*;
+import android.view.Display;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
-import java.util.Arrays;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Random;
-
-import static java.lang.Thread.sleep;
 
 public class Game extends AppCompatActivity implements View.OnClickListener {
     TextView playersTableTextView, //отображение кол-ва игроков
@@ -378,58 +378,62 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
     {
         rollTheDicesImageButton.setVisibility(View.INVISIBLE);
         currentRollScoreTextView.setVisibility(View.INVISIBLE);
+        currentPlayerTextView.setVisibility(View.INVISIBLE);
         if (!(boolean) dicesList[0][2]) { diceImageButton_1.setY(height + 100); }
         if (!(boolean) dicesList[1][2]) { diceImageButton_2.setY(height + 100); }
         if (!(boolean) dicesList[2][2]) { diceImageButton_3.setY(height + 100); }
         if (!(boolean) dicesList[3][2]) { diceImageButton_4.setY(height + 100); }
         if (!(boolean) dicesList[4][2]) { diceImageButton_5.setY(height + 100); }
-        Thread t = new Thread(){
-            @Override
-            public void run(){
-                try {
-                    sleep(1000);
-                    int diceRandomY = width / 6 + 15 + new Random().nextInt(10);
-                    int slow = 0;
-                    for(int i=0; i< diceRandomY; i++){
-                        if (i > diceRandomY / 5) { slow = 1; }
-                        if (i > diceRandomY / 4) { slow = 2; }
-                        if (i > diceRandomY / 3) { slow = 3; }
-                        if (i > diceRandomY / 2) { slow = 5; }
-                        if (!(boolean) dicesList[0][2]) {
-                            diceImageButton_1.setRotation(diceImageButton_1.getRotation() + (new Random().nextInt(3) + 7 - slow - 1));
-                            diceImageButton_1.setTranslationY(diceImageButton_1.getTranslationY() - (10 - slow));
-                        }
-                        if (!(boolean) dicesList[1][2]) {
-                            diceImageButton_2.setRotation(diceImageButton_2.getRotation() + (new Random().nextInt(4) + 8 - slow - 2));
-                            diceImageButton_2.setTranslationY(diceImageButton_2.getTranslationY() - (11 - slow));
-                        }
-                        if (!(boolean) dicesList[2][2]) {
-                            diceImageButton_3.setRotation(diceImageButton_3.getRotation() + (new Random().nextInt(5) + 9 - slow - 3));
-                            diceImageButton_3.setTranslationY(diceImageButton_3.getTranslationY() - (12 - slow));
-                        }
-                        if (!(boolean) dicesList[3][2]) {
-                            diceImageButton_4.setRotation(diceImageButton_4.getRotation() + (new Random().nextInt(6) + 10 - slow - 4));
-                            diceImageButton_4.setTranslationY(diceImageButton_4.getTranslationY() - (13 - slow));
-                        }
-                        if (!(boolean) dicesList[4][2]) {
-                            diceImageButton_5.setRotation(diceImageButton_5.getRotation() + (new Random().nextInt(7) + 11 - slow - 5));
-                            diceImageButton_5.setTranslationY(diceImageButton_5.getTranslationY() - (14 - slow));
-                        }
-                        sleep(1,300000);
-                    }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            rollTheDicesImageButton.setVisibility(View.VISIBLE);
-                            currentRollScoreTextView.setVisibility(View.VISIBLE);
-                        }
-                    });
 
-                } catch (InterruptedException ex) {
-                    Log.i("error","thread");
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!(boolean) dicesList[0][2]) {
+                    ObjectAnimator AnimationY = ObjectAnimator.ofFloat(diceImageButton_1, "translationY", -height/16);
+                    ObjectAnimator AnimationRotation = ObjectAnimator.ofFloat(diceImageButton_1, "rotation", new Random().nextInt(250) + 250);
+                    AnimationY.setDuration(400);
+                    AnimationRotation.setDuration(420);
+                    AnimationY.start();
+                    AnimationRotation.start();
                 }
+                if (!(boolean) dicesList[1][2]) {
+                    ObjectAnimator AnimationY = ObjectAnimator.ofFloat(diceImageButton_2, "translationY", -height/16);
+                    ObjectAnimator AnimationRotation = ObjectAnimator.ofFloat(diceImageButton_2, "rotation", new Random().nextInt(250) + 250);
+                    AnimationY.setDuration(400);
+                    AnimationRotation.setDuration(420);
+                    AnimationY.start();
+                    AnimationRotation.start();
+                }
+                if (!(boolean) dicesList[2][2]) {
+                    ObjectAnimator AnimationY = ObjectAnimator.ofFloat(diceImageButton_3, "translationY", -height/32);
+                    ObjectAnimator AnimationRotation = ObjectAnimator.ofFloat(diceImageButton_3, "rotation", new Random().nextInt(250) + 250);
+                    AnimationY.setDuration(400);
+                    AnimationRotation.setDuration(420);
+                    AnimationY.start();
+                    AnimationRotation.start();
+                }
+                if (!(boolean) dicesList[3][2]) {
+                    ObjectAnimator AnimationY = ObjectAnimator.ofFloat(diceImageButton_4, "translationY", -height/24);
+                    ObjectAnimator AnimationRotation = ObjectAnimator.ofFloat(diceImageButton_4, "rotation", new Random().nextInt(250) + 250);
+                    AnimationY.setDuration(400);
+                    AnimationRotation.setDuration(420);
+                    AnimationY.start();
+                    AnimationRotation.start();
+                }
+                if (!(boolean) dicesList[4][2]) {
+                    ObjectAnimator AnimationY = ObjectAnimator.ofFloat(diceImageButton_5, "translationY", -height/40);
+                    ObjectAnimator AnimationRotation = ObjectAnimator.ofFloat(diceImageButton_5, "rotation", new Random().nextInt(250) + 250);
+                    AnimationY.setDuration(400);
+                    AnimationRotation.setDuration(420);
+                    AnimationY.start();
+                    AnimationRotation.start();
+                }
+                rollTheDicesImageButton.setVisibility(View.VISIBLE);
+                currentRollScoreTextView.setVisibility(View.VISIBLE);
+                currentPlayerTextView.setVisibility(View.VISIBLE);
             }
-        };
-        t.start();
+        }, 1000);
+
+
     }
 }
