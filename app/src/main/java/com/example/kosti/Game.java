@@ -290,7 +290,7 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
                     boolean inBurningScoreRange = possibilityScore > burnedScoreStart & possibilityScore < burnedScoreEnd;
 
                     if (!inBurningScoreRange & (playerScores[currentPlayer] != 0 | possibilityScore >= 100)) {
-                        saveScoreButton.setVisibility(View.VISIBLE);
+                        ShowSaveScoreButton();
                     } else {
                         saveScoreButton.setVisibility(View.INVISIBLE);
                     }
@@ -376,9 +376,7 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
     }
     public void rollAnimation()
     {
-        rollTheDicesImageButton.setVisibility(View.INVISIBLE);
-        currentRollScoreTextView.setVisibility(View.INVISIBLE);
-        currentPlayerTextView.setVisibility(View.INVISIBLE);
+        HideAndShowGameInterfaceElemetns();
         if (!(boolean) dicesList[0][2]) { diceImageButton_1.setY(height + 100); }
         if (!(boolean) dicesList[1][2]) { diceImageButton_2.setY(height + 100); }
         if (!(boolean) dicesList[2][2]) { diceImageButton_3.setY(height + 100); }
@@ -428,12 +426,35 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
                     AnimationY.start();
                     AnimationRotation.start();
                 }
-                rollTheDicesImageButton.setVisibility(View.VISIBLE);
-                currentRollScoreTextView.setVisibility(View.VISIBLE);
-                currentPlayerTextView.setVisibility(View.VISIBLE);
             }
         }, 1000);
 
 
+    }
+
+    public void HideAndShowGameInterfaceElemetns()
+    {
+        rollTheDicesImageButton.setVisibility(View.INVISIBLE);
+        currentRollScoreTextView.setVisibility(View.INVISIBLE);
+        currentPlayerTextView.setVisibility(View.INVISIBLE);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                rollTheDicesImageButton.setVisibility(View.VISIBLE);
+                currentRollScoreTextView.setVisibility(View.VISIBLE);
+                currentPlayerTextView.setVisibility(View.VISIBLE);
+            }
+        }, 1500);
+    }
+
+    public void ShowSaveScoreButton()
+    {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                saveScoreButton.setVisibility(View.VISIBLE);
+            }
+        }, 1500);
     }
 }
