@@ -42,11 +42,11 @@
     <string name="StatsScoreHeaderTitle">Счет</string>
     <string name="GameLimit">Игра до:</string>
     <string name="burnedScore"></string>
-    <string name="cg_nameText">Игрок 1</string>
+    <string name="cg_nameText">Макс</string>
     <string name="cg_nameText3">Игрок 3</string>
     <string name="cs_nameText4">Игрок 4</string>
     <string name="cg_nameText6">Игрок 6</string>
-    <string name="cg_maxScoreGame_default">1000</string>
+    <string name="cg_maxScoreGame_default">500</string>
     <string name="cg_NameText5">Игрок 5</string>
     <string name="cs_textView4">Непрерывно</string>
     <string name="cg_textView12">От:</string>
@@ -54,6 +54,6 @@
     <string name="cg_textView13">До:</string>
     <string name="cg_burnedScoreEnd_default">400</string>
     <string name="cg_textView14">Число обнуления:</string>
-    <string name="cg_nullableScore_default">210</string>
-    <string name="cg_nameText2">Игрок 2</string>
+    <string name="cg_nullableScore_default">495</string>
+    <string name="cg_nameText2">Ден</string>
 </resources>

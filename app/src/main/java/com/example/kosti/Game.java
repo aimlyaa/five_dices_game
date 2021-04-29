@@ -277,10 +277,12 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
                     saveScore(0);
                     currentRollScoreTextView.setText("Сгорел");
                     burned = true;
+                    UnlockAllDices();
                 }
                 if (income == 0) {
                     saveScore(0);
                     currentRollScoreTextView.setText("Проигрыш");
+                    UnlockAllDices();
                 }
                 else {
                     currentScore += income;
@@ -289,7 +291,7 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
                     int possibilityScore = playerScores[currentPlayer] + currentScore;
                     boolean inBurningScoreRange = possibilityScore > burnedScoreStart & possibilityScore < burnedScoreEnd;
 
-                    if (!inBurningScoreRange & (playerScores[currentPlayer] != 0 | possibilityScore >= 100)) {
+                    if (!inBurningScoreRange & (playerScores[currentPlayer] != 0 | possibilityScore >= 100) & !(possibilityScore > winScore) & !burned) {
                         ShowSaveScoreButton();
                     } else {
                         saveScoreButton.setVisibility(View.INVISIBLE);
@@ -298,13 +300,21 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
                     if (possibilityScore > winScore) {
                         saveScore(0);
                         currentRollScoreTextView.setText("Перебор!");
-
+                        UnlockAllDices();
                     }
                 }
                     break;
 
             case R.id.saveScore:
                 saveScore(currentScore);
+                for (int i = 0; i < dicesList.length; i++){
+                    dicesList[i][2] = false;
+                }
+                diceImageButton_1.setImageResource(dicesImagesList[(int) dicesList[0][1] - 1][0]);
+                diceImageButton_2.setImageResource(dicesImagesList[(int) dicesList[1][1] - 1][0]);
+                diceImageButton_3.setImageResource(dicesImagesList[(int) dicesList[2][1] - 1][0]);
+                diceImageButton_4.setImageResource(dicesImagesList[(int) dicesList[3][1] - 1][0]);
+                diceImageButton_5.setImageResource(dicesImagesList[(int) dicesList[4][1] - 1][0]);
                 break;
         }
     }
@@ -437,6 +447,8 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
         rollTheDicesImageButton.setVisibility(View.INVISIBLE);
         currentRollScoreTextView.setVisibility(View.INVISIBLE);
         currentPlayerTextView.setVisibility(View.INVISIBLE);
+        currentPlayerScoreTextView.setVisibility(View.INVISIBLE);
+
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -444,17 +456,36 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
                 rollTheDicesImageButton.setVisibility(View.VISIBLE);
                 currentRollScoreTextView.setVisibility(View.VISIBLE);
                 currentPlayerTextView.setVisibility(View.VISIBLE);
+                currentPlayerScoreTextView.setVisibility(View.VISIBLE);
             }
         }, 1500);
     }
 
     public void ShowSaveScoreButton()
     {
+        saveScoreButton.setVisibility(View.INVISIBLE);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 saveScoreButton.setVisibility(View.VISIBLE);
             }
         }, 1500);
+    }
+
+    public void UnlockAllDices(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < dicesList.length; i++){
+                    dicesList[i][2] = false;
+                }
+                diceImageButton_1.setImageResource(dicesImagesList[(int) dicesList[0][1] - 1][0]);
+                diceImageButton_2.setImageResource(dicesImagesList[(int) dicesList[1][1] - 1][0]);
+                diceImageButton_3.setImageResource(dicesImagesList[(int) dicesList[2][1] - 1][0]);
+                diceImageButton_4.setImageResource(dicesImagesList[(int) dicesList[3][1] - 1][0]);
+                diceImageButton_5.setImageResource(dicesImagesList[(int) dicesList[4][1] - 1][0]);
+            }
+        }, 1500);
+
     }
 }
