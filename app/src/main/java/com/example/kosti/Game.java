@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Game extends AppCompatActivity implements View.OnClickListener {
@@ -46,9 +48,13 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
         currentPlayer, //текущий игрок
         currentScore, //счет текущего игрока
         width,
-        height;
-
-    boolean burned = false;
+        height,
+        one,
+        two,
+        three,
+        four,
+        five,
+        six;
 
     int[] playerScores = new int[6]; //массив с очками игроков
     String[] names = new String[6]; //массив с именами
@@ -59,6 +65,9 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
             {R.id.dice_4, 1, false},
             {R.id.dice_5, 1, false},
     };
+
+    boolean unlockedByMethod = false;
+
     int[][] dicesImagesList = {
             {R.drawable.dice_1, R.drawable.dice_1_locked},
             {R.drawable.dice_2, R.drawable.dice_2_locked},
@@ -203,7 +212,9 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
                 break;
 
             case R.id.rollTheDice:
-                burned = false;
+                if (!isPlayerCanRollDices()) {
+                    return;
+                }
                 rollAnimation();
                 MediaPlayer rollSong = MediaPlayer.create(this, R.raw.roll);
                 rollSong.start();
@@ -212,13 +223,14 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
                     break;
                 }
                 //1, 2, 3, 4, 5, 6
-                int one = 0;
-                int two = 0;
-                int three = 0;
-                int four = 0;
-                int five = 0;
-                int six = 0;
+                one = 0;
+                two = 0;
+                three = 0;
+                four = 0;
+                five = 0;
+                six = 0;
                 int[] res = rollTheDices(); //получаем массив со случайными числами для кубиков
+
                 for (int n = 0; n < 5; n++) {
                     if (!(boolean) dicesList[n][2]) {
                         dicesList[n][1] = res[n];
@@ -238,70 +250,134 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
                     if (n == 5) five += 1;
                     if (n == 6) six += 1;
                 }
+                if (two == 0 & three == 0 & four == 0 & six == 0) { unlockAllDices(); }
                 //подсчет очков
                 if (one == 1) income += 10;
                 if (one == 2) income += 20;
-                if (one == 3) income += 100;
-                if (one == 4) income += 200;
-                if (one == 5) income += 1000;
+                if (one == 3)
+                {
+                    income += 100;
+                    unlockAllDices();
+                }
+                if (one == 4)
+                {
+                    income += 200;
+                    unlockAllDices();
+                }
+                if (one == 5)
+                {
+                    income += 1000;
+                    unlockAllDices();
+                }
 
-                if (two == 3) income += 20;
-                if (two == 4) income += 40;
-                if (two == 5) income += 200;
+                if (two == 3)
+                {
+                    income += 20;
+                    unlockAllDices();
+                }
+                if (two == 4)
+                {
+                    income += 40;
+                    unlockAllDices();
+                }
+                if (two == 5)
+                {
+                    income += 200;
+                    unlockAllDices();
+                }
 
-                if (three == 3) income += 30;
-                if (three == 4) income += 60;
-                if (three == 5) income += 300;
+                if (three == 3)
+                {
+                    income += 30;
+                    unlockAllDices();
+                }
+                if (three == 4)
+                {
+                    income += 60;
+                    unlockAllDices();
+                }
+                if (three == 5)
+                {
+                    income += 300;
+                    unlockAllDices();
+                }
 
-                if (four == 3) income += 40;
-                if (four == 4) income += 80;
-                if (four == 5) income += 400;
+                if (four == 3)
+                {
+                    income += 40;
+                    unlockAllDices();
+                }
+                if (four == 4)
+                {
+                    income += 80;
+                    unlockAllDices();
+                }
+                if (four == 5)
+                {
+                    income += 400;
+                    unlockAllDices();
+                }
 
                 if (five == 1) income += 5;
                 if (five == 2) income += 10;
-                if (five == 3) income += 50;
-                if (five == 4) income += 100;
-                if (five == 5) income += 500;
-
-                if (six == 3) income += 60;
-                if (six == 4) income += 120;
-                if (six == 5) income += 600;
-
-                if (one == 1 && two == 1 && three == 1 && four == 1 && five == 1) income += 125;
-                if (two == 1 && three == 1 && four == 1 && five == 1 && six == 1) income += 250;
-
-                //проверка хода
-                if (playerScores[currentPlayer] + income == nullNumber)
+                if (five == 3)
                 {
-                    playerScores[currentPlayer] = 0;
-                    saveScore(0);
-                    currentRollScoreTextView.setText("Сгорел");
-                    burned = true;
-                    UnlockAllDices();
+                    income += 50;
+                    unlockAllDices();
                 }
-                if (income == 0) {
-                    saveScore(0);
-                    currentRollScoreTextView.setText("Проигрыш");
-                    UnlockAllDices();
+                if (five == 4)
+                {
+                    income += 100;
+                    unlockAllDices();
                 }
-                else {
-                    currentScore += income;
-                    if (!burned) { currentRollScoreTextView.setText(Integer.toString(currentScore)); }
+                if (five == 5)
+                {
+                    income += 500;
+                    unlockAllDices();
+                }
 
-                    int possibilityScore = playerScores[currentPlayer] + currentScore;
-                    boolean inBurningScoreRange = possibilityScore > burnedScoreStart & possibilityScore < burnedScoreEnd;
+                if (six == 3)
+                {
+                    income += 60;
+                    unlockAllDices();
+                }
+                if (six == 4)
+                {
+                    income += 120;
+                    unlockAllDices();
+                }
+                if (six == 5)
+                {
+                    income += 600;
+                    unlockAllDices();
+                }
 
-                    if (!inBurningScoreRange & (playerScores[currentPlayer] != 0 | possibilityScore >= 100) & !(possibilityScore > winScore) & !burned) {
-                        ShowSaveScoreButton();
-                    } else {
-                        saveScoreButton.setVisibility(View.INVISIBLE);
-                    }
+                if (one == 1 && two == 1 && three == 1 && four == 1 && five == 1)
+                {
+                    income += 125;
+                    unlockAllDices();
+                }
+                if (two == 1 && three == 1 && four == 1 && five == 1 && six == 1)
+                {
+                    income += 250;
+                    unlockAllDices();
+                }
+                //проверка хода
+                if (isPlayerBurned(income)) return;
+                if (isPlayerGetZeroIncome(income)) return;
 
-                    if (possibilityScore > winScore) {
-                        saveScore(0);
-                        currentRollScoreTextView.setText("Перебор!");
-                        UnlockAllDices();
-                    }
+                currentScore += income;
+                int possibilityScore = playerScores[currentPlayer] + currentScore;
+
+                if (isPlayerGetOverScore(possibilityScore)) return;
+
+                currentRollScoreTextView.setText(Integer.toString(currentScore));
+                boolean inBurningScoreRange = possibilityScore > burnedScoreStart & possibilityScore < burnedScoreEnd;
+
+                if (!inBurningScoreRange & (playerScores[currentPlayer] != 0 | possibilityScore >= 100)) {
+                    showSaveScoreButton();
+                } else {
+                    saveScoreButton.setVisibility(View.INVISIBLE);
                 }
                     break;
 
@@ -336,6 +412,7 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void saveScore(int score) { //сохранение результа(ов) броска(ов) кубиков
+        unlockedByMethod = true;
         saveScoreButton.setVisibility(View.INVISIBLE); //скрываем кнопку "сохранить"
         currentScore = 0; //обнуляем текущий счет
         currentRollScoreTextView.setText("0");
@@ -378,15 +455,15 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
     public void checkFivesLock()
     {
         if ((boolean)dicesList[0][2] &&
-                (boolean)dicesList[1][2] &&
-                (boolean)dicesList[2][2] &&
-                (boolean)dicesList[3][2] &&
-                (boolean)dicesList[4][2]) { rollTheDicesImageButton.setEnabled(false); }
+            (boolean)dicesList[1][2] &&
+            (boolean)dicesList[2][2] &&
+            (boolean)dicesList[3][2] &&
+            (boolean)dicesList[4][2]) { rollTheDicesImageButton.setEnabled(false); }
         else {rollTheDicesImageButton.setEnabled(true);}
     }
     public void rollAnimation()
     {
-        HideAndShowGameInterfaceElemetns();
+        hideAndShowGameInterfaceElements();
         if (!(boolean) dicesList[0][2]) { diceImageButton_1.setY(height + 100); }
         if (!(boolean) dicesList[1][2]) { diceImageButton_2.setY(height + 100); }
         if (!(boolean) dicesList[2][2]) { diceImageButton_3.setY(height + 100); }
@@ -442,7 +519,7 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
 
     }
 
-    public void HideAndShowGameInterfaceElemetns()
+    public void hideAndShowGameInterfaceElements()
     {
         rollTheDicesImageButton.setVisibility(View.INVISIBLE);
         currentRollScoreTextView.setVisibility(View.INVISIBLE);
@@ -461,7 +538,7 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
         }, 1500);
     }
 
-    public void ShowSaveScoreButton()
+    public void showSaveScoreButton()
     {
         saveScoreButton.setVisibility(View.INVISIBLE);
         new Handler().postDelayed(new Runnable() {
@@ -472,7 +549,8 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
         }, 1500);
     }
 
-    public void UnlockAllDices(){
+    public void unlockAllDices(){
+        unlockedByMethod = true;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -486,6 +564,81 @@ public class Game extends AppCompatActivity implements View.OnClickListener {
                 diceImageButton_5.setImageResource(dicesImagesList[(int) dicesList[4][1] - 1][0]);
             }
         }, 1500);
+
+    }
+
+    public boolean isPlayerBurned(int income){
+        if (playerScores[currentPlayer] + income == nullNumber)
+        {
+            playerScores[currentPlayer] = 0;
+            saveScore(0);
+            currentRollScoreTextView.setText("Сгорел");
+            unlockAllDices();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isPlayerGetZeroIncome(int income){
+        if (income == 0) {
+            saveScore(0);
+            currentRollScoreTextView.setText("Проигрыш");
+            unlockAllDices();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isPlayerGetOverScore(int possibilityScore){
+        if (possibilityScore > winScore) {
+            saveScore(0);
+            currentRollScoreTextView.setText("Перебор!");
+            unlockAllDices();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isPlayerCanRollDices(){
+        if (unlockedByMethod) {
+            unlockedByMethod = false;
+            return true;
+        }
+        List<Integer> unselectedDices = new ArrayList<>();
+        if ( (one > 0 & one <= 2) | (five > 0 & five <= 2) ) {
+            rollTheDicesImageButton.setEnabled(false);
+            for (int i = 0; i < dicesList.length; i++){
+                if( ((int)(dicesList[i][1]) == 1 | ((int) dicesList[i][1]) == 5) & !(boolean) dicesList[i][2] ){
+                    unselectedDices.add(i);
+                }
+            }
+            if(!unselectedDices.isEmpty()) {
+                animateUnselectedDices(unselectedDices);
+                rollTheDicesImageButton.setEnabled(true);
+                return false;
+            }
+            else{
+                rollTheDicesImageButton.setEnabled(true);
+                return true;
+            }
+
+        }
+        return true;
+    }
+
+    public void animateUnselectedDices(final List<Integer> unselectedDices){
+        for (int n : unselectedDices){
+            ImageButton dice = findViewById((Integer) dicesList[n][0]);
+            dice.setImageResource(dicesImagesList[(int) dicesList[n][1] - 1][1]);
+        }
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                for (int n : unselectedDices){
+                    ImageButton dice = findViewById((Integer) dicesList[n][0]);
+                    dice.setImageResource(dicesImagesList[(int) dicesList[n][1] - 1][0]);
+                }
+            }
+        }, 300);
 
     }
 }

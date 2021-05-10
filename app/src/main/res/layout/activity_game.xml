@@ -59,6 +59,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="35"
             android:paddingRight="20dp"
+            android:paddingVertical="10dp"
             android:orientation="horizontal"
             android:gravity="center">
 
@@ -102,6 +103,7 @@
             android:layout_weight="25"
             android:orientation="horizontal"
             android:paddingRight="20dp"
+            android:paddingVertical="10dp"
             android:gravity="center">
 
             <TextView
